@@ -1,0 +1,111 @@
+swagger: '2.0'
+info:
+  description: Exemplo de documentação de API com Swagger
+  version: 1.0.0
+  title: Swagger API
+  contact:
+    email: contato@orion.tech
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'localhost:3000'
+basePath: /v1
+tags:
+  - name: user
+    description: Operações CRUD de usuário
+schemes:
+  - http
+paths:
+  /user:
+    get:
+      tags:
+        - user
+      summary: Get users
+      description: Obter todos os usuários
+      produces:
+        - application/json
+      responses:
+        default:
+          description: Array com todos os usuários
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: Criar um novo usuário com objeto passado por body
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Objeto com os dados do usuário
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        default:
+          description: Objeto do usuário criado
+  '/user/{id}':
+    parameters:
+      - name: id
+        in: path
+        description: Id do usuário a ser buscado
+        required: true
+        type: string
+    get:
+      tags:
+        - user
+      summary: Get user by id
+      description: Obter um usuário por id
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Objeto com dados do usuário pesquisado
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Id não informado ou inválido
+        '404':
+          description: Usuário não encontrado
+    patch:
+      tags:
+        - user
+      summary: Update user
+      description: Atualiza um usuário com as informações passadas por body
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Objeto com as alterações
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '400':
+          description: Objeto com as alterações inválido
+        '404':
+          description: Usuário não encontrado
+    delete:
+      tags:
+        - user
+      summary: Delete user
+      description: Remove um usuário por id
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Id não informado ou inválido
+        '404':
+          description: Usuário não encontrado
+definitions:
+  User:
+    type: object
+    properties:
+      _id:
+        type: string
+      name:
+        type: string
+      age:
+        type: integer
+        format: int32
